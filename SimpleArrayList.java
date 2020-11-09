@@ -19,19 +19,34 @@ public class SimpleArrayList {
         }
         array_size = base_array.length;
     }
+
+    //fixed testAdd
     public void add(int index, String s) { //adds a string at given index
         checkForSpace();
-        checkArrayBounds(index, array_size);
-        for(int y = base_array.length-2; y > index-1; y--) {
-            base_array[y+1] = base_array[y];
+
+        if(index < 0 || index >= array_size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", " + "Size: " + array_size);
         }
+
+        String[] tempArray = new String[array_size];
+        for(int i = 0; i < array_size; i++){
+            tempArray[i] = base_array[i];
+        }
+        array_size++;
+        base_array = new String[array_size];
         base_array[index] = s;
-        array_size +=1;
+
+        for(int i = 0; i < index; i++){
+            base_array[i] = tempArray[i];
+        }
+        for (int i = index; i < array_size-1; i++){
+            base_array[i+1] = tempArray[i];
+        }
     }
     public boolean add(String s) { //adds a string to end of array
         checkForSpace();
         base_array[array_size] = s;
-        array_size +=1;
+        array_size ++;
         return true;
     }
     public void clear() { //clears entire array
